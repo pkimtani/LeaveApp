@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- App Default String -->
+    <string name="app_name">Leave App</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Refresh</string>
+
+    <!-- Preferences String -->
+    <string name="reg_no_key" translatable="False">reg_no</string>
+    <string name="pass_key" translatable="False">pass</string>
+    <string name="reg_no_title">Registration Number</string>
+    <string name="pass_title">Password</string>
+
+    <!-- Home Screen View String -->
+    <string name="applyLeaveBtn">Apply For New Leave</string>
+
+    <!-- List Item Default View String -->
+    <string name="to">Place Goes Here</string>
+    <string name="nod">No of days</string>
+    <string name="status">Status</string>
+    <string name="extDate">Exit Date</string>
+
+    <!-- Login Creds Dialog String -->
+    <string name="regTF">Registration No:</string>
+    <string name="passTF">Password:</string>
+
+    <!-- SyncAdapter/App related Strings -->
+    <string name="sync_account_type">leaveapp.example.com</string>
+    <string name="content_authority">com.developer.gdgvit.leaveapp.app</string>
+
+</resources>

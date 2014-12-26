@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:title="@string/reg_no_title"
+        android:key="@string/reg_no_key"
+        android:inputType="text"
+        android:singleLine="true"
+        android:defaultValue="" />
+
+    <EditTextPreference
+        android:title="@string/pass_title"
+        android:key="@string/pass_key"
+        android:defaultValue=""
+        android:inputType="textPassword"
+        android:singleLine="true"/>
+
+</PreferenceScreen>
