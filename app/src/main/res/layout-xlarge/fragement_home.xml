@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <FrameLayout
         android:id="@+id/leaveListFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.1">
+        android:layout_height="260dp"
+        android:layout_weight="0.99">
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/leaveList"
             android:layout_gravity="start" />
 
@@ -20,15 +21,15 @@
     <FrameLayout
         android:id="@+id/newLeaveFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.9">
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="91dp"
             android:text="@string/applyLeaveBtn"
             android:id="@+id/newLeaveBtn"
-            android:layout_gravity="start" />
+            android:layout_gravity="right|center_vertical"
+            android:textSize="22sp" />
 
     </FrameLayout>
 </LinearLayout>

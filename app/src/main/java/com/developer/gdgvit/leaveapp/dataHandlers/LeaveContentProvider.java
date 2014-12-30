@@ -1,4 +1,4 @@
-package com.developer.gdgvit.leaveapp.DataHandlers;
+package com.developer.gdgvit.leaveapp.dataHandlers;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -6,11 +6,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.DBContract.LeaveEntry;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
 
 /**
  * Created by pk on 21/12/14.
@@ -78,6 +76,8 @@ public class LeaveContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " + uri);
         }
+
+        retCur.setNotificationUri(getContext().getContentResolver(), uri);
 
         return retCur;
     }

@@ -1,31 +1,20 @@
 package com.developer.gdgvit.leaveapp;
 
 import android.annotation.TargetApi;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
-
-import com.developer.gdgvit.leaveapp.Fragments.Leave_List_Fragment;
-
-import java.util.List;
+import com.developer.gdgvit.leaveapp.syncAdaptors.LeaveAppSyncAdapter;
 
 
 public class SettingsActivity extends PreferenceActivity {
@@ -181,25 +170,4 @@ public class SettingsActivity extends PreferenceActivity {
      * This fragment shows general preferences only. It is used when the
      * activity is showing a two-pane settings UI.
      */
-
-    @Override
-    protected void onPause() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String reg = pref.getString(getString(R.string.reg_no_key), "");  //Registration Number
-        String pas = pref.getString(getString(R.string.pass_key), ""); //Password
-
-        if(reg=="" || pas == "")
-        {
-            //Set boolean login data to false..
-
-            Home.login_data = false;
-        }
-        else
-        {
-            //Set the login data boolean to true.
-            Home.login_data = true;
-        }
-
-        super.onPause();
-    }
 }

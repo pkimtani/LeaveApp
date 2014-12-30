@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="applyToList">
+        <item>Dummy Faculty 1</item>
+        <item>Dummy Faculty 2</item>
+    </string-array>
+    <string-array name="leaveTypeList">
+        <item>Home Town/Semester Leave</item>
+        <item>With Parent Leave</item>
+        <item>Emergency Leave</item>
+        <item>Local Guardian Leave</item>
+        <item>Examination Leave</item>
+    </string-array>
+</resources>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.01">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:weightSum="1"
+            android:layout_marginTop="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/appliedTo"
+                android:id="@+id/applyToText"
+                android:layout_weight="0.10"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/leave"
+                android:id="@+id/textView2"
+                android:layout_weight="0.10"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/exitOn"
+                android:id="@+id/textView3"
+                android:layout_weight="0.08"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/entryOn"
+                android:id="@+id/textView4"
+                android:layout_weight="0.08"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/place"
+                android:id="@+id/textView5"
+                android:layout_weight="0.08"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/reason"
+                android:id="@+id/textView6"
+                android:layout_weight="0.08"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/applyToValueSpinner"
+                android:spinnerMode="dropdown"
+                android:layout_weight="0.19"
+                android:layout_marginTop="1dp" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/leaveTypeValueSpinner"
+                android:focusable="false"
+                android:spinnerMode="dropdown"
+                android:layout_weight="0.16" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/exitOnValue"
+                android:layout_weight="0.05" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/entryOnValue" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/placeToValue"
+                android:layout_weight="0.07" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/reasonValue" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/apply"
+        android:id="@+id/applyNowBtn"
+        android:layout_gravity="bottom"
+        android:textSize="22sp" />
+</LinearLayout>

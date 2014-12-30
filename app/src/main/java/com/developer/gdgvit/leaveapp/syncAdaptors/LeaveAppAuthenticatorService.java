@@ -1,4 +1,4 @@
-package com.developer.gdgvit.leaveapp.SyncAdaptors;
+package com.developer.gdgvit.leaveapp.syncAdaptors;
 
 import android.app.Service;
 import android.content.Intent;

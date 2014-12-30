@@ -7,8 +7,8 @@ import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.DBContract.LeaveEntry;
-import com.developer.gdgvit.leaveapp.DataHandlers.DBHelper;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBHelper;
 
 /**
  * Created by pk on 21/12/14.

@@ -1,4 +1,4 @@
-package com.developer.gdgvit.leaveapp.DataHandlers;
+package com.developer.gdgvit.leaveapp.dataHandlers;
 
 import android.content.ContentUris;
 import android.net.Uri;

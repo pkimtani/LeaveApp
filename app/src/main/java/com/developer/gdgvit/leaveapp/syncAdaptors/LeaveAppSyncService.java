@@ -1,4 +1,4 @@
-package com.developer.gdgvit.leaveapp.SyncAdaptors;
+package com.developer.gdgvit.leaveapp.syncAdaptors;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.developer.gdgvit.leaveapp.Home;
+import com.developer.gdgvit.leaveapp.LeaveAppClass;
 
 /**
  * Created by pk on 25/12/14.
@@ -22,7 +23,7 @@ public class LeaveAppSyncService extends Service
     @Override
     public void onCreate()
     {
-        Log.i(Home.Log_Tag, "OnCreate | Leave App SyncAdapterService");
+        Log.i(LeaveAppClass.Log_Tag, "OnCreate | Leave App SyncAdapterService");
         if(leaveAppSyncAdapter==null)
             leaveAppSyncAdapter = new LeaveAppSyncAdapter(getApplicationContext(), true);
     }

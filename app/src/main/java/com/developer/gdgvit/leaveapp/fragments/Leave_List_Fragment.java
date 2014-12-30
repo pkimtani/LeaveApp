@@ -1,10 +1,13 @@
-package com.developer.gdgvit.leaveapp.Fragments;
+package com.developer.gdgvit.leaveapp.fragments;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -12,15 +15,26 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.DBContract.LeaveEntry;
+import com.developer.gdgvit.leaveapp.LeaveAppClass;
+import com.developer.gdgvit.leaveapp.dataHandlers.CheckInternet;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
 import com.developer.gdgvit.leaveapp.Home;
 import com.developer.gdgvit.leaveapp.R;
+import com.developer.gdgvit.leaveapp.dataHandlers.Utility;
 
 public class Leave_List_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     ListView leaveList;
+    Button applyBtn;
+
+    Detail_View_Fragment df;
 
     private static final String[] LeaveEntryCols_Array = {
             LeaveEntry._ID,
@@ -44,9 +58,10 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
     public static final int IND_COL_PLACE = 4;
     public static final int IND_COL_EXIT_ON = 5;
     public static final int IND_COL_ENTRY_ON = 6;
-    public static final int IND_COL_STATUS = 7;
-    public static final int IND_COL_APPROVED_BY = 8;
-    public static final int IND_COL_APPROVED_ON = 9;
+    public static final int IND_COL_NOD = 7;
+    public static final int IND_COL_STATUS = 8;
+    public static final int IND_COL_APPROVED_BY = 9;
+    public static final int IND_COL_APPROVED_ON = 10;
 
     //Dummy data to show in case if no data is fetched and stored in the database
     public static final String applied_to = "Applied To";
@@ -90,7 +105,81 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
                 0
         );
 
+        mLeaveAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+
+                if(columnIndex==IND_COL_EXIT_ON)
+                {
+                    ((TextView) view).setText(Utility.formDate(cursor.getString(cursor.getColumnIndex(LeaveEntry.COL_EXIT_ON))));
+                    return true;
+                }
+                if(columnIndex==IND_COL_NOD)
+                {
+                    ((TextView) view).setText("No of days: " + cursor.getString(cursor.getColumnIndex(LeaveEntry.COL_NO_OF_DAYS)));
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
         leaveList.setAdapter(mLeaveAdapter);
+
+        leaveList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                Cursor c = mLeaveAdapter.getCursor();
+                c.moveToPosition(position);
+                String slNo = c.getString(c.getColumnIndex(LeaveEntry._ID));
+                String exit = c.getString(c.getColumnIndex(LeaveEntry.COL_EXIT_ON));
+
+                if(exit.equals(exit_on))
+                    Toast.makeText(getActivity(), "Provide the login details in setting and refresh first... :(", Toast.LENGTH_LONG).show();
+                else
+                {
+                    Bundle dataBundle = new Bundle();
+                    dataBundle.putString(Home.Sl_NO_TAG, slNo);
+                    dataBundle.putString(Home.EXIT_DATE_TAG, exit);
+                    df = new Detail_View_Fragment();
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    df.setArguments(dataBundle);
+                    if(LeaveAppClass.TWO_PANE_UI)
+                        ft.replace(R.id.detailContainer, df, "detail");
+                    else
+                        ft.replace(R.id.container, df, "detail");
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+            }
+
+        });
+
+        applyBtn = (Button) rootView.findViewById(R.id.newLeaveBtn);
+
+        applyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(new CheckInternet(getActivity()).state())
+                {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    if(LeaveAppClass.TWO_PANE_UI)
+                        ft.replace(R.id.detailContainer, new Apply_New_Leave_Fragment(), "apply");
+                    else
+                        ft.replace(R.id.container, new Apply_New_Leave_Fragment(), "apply");
+                    ft.addToBackStack(null);
+                    ft.commit();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Please connect to internet first.. :(",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
 
         return rootView;
     }
@@ -101,9 +190,9 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
 
-        if(Home.login_data)
+        if(LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.loginDataKey))
         {
-            if(Home.db_data)
+            if(LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.dbDataKey))
             {
                 return new CursorLoader(
                         getActivity(),
@@ -132,7 +221,7 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
 
                 getActivity().getContentResolver().insert(LeaveEntry.Content_Uri, values);
 
-                Home.db_data = true;
+                LeaveAppClass.dbpref.SavePreferences(LeaveAppClass.dbDataKey, false);
 
                 return new CursorLoader(
                         getActivity(),
@@ -163,7 +252,7 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
 
             getActivity().getContentResolver().insert(LeaveEntry.Content_Uri, values);
 
-            Home.db_data = true;
+            LeaveAppClass.dbpref.SavePreferences(LeaveAppClass.dbDataKey, false);
 
             return new CursorLoader(
                     getActivity(),

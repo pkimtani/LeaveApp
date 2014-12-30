@@ -1,11 +1,10 @@
-package com.developer.gdgvit.leaveapp.DataHandlers;
+package com.developer.gdgvit.leaveapp.dataHandlers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.developer.gdgvit.leaveapp.Home;
-import com.developer.gdgvit.leaveapp.R;
+import com.developer.gdgvit.leaveapp.LeaveAppClass;
 
 /**
  * Created by pk on 26/12/14.
@@ -29,21 +28,8 @@ public class CheckIdPass {
         String reg = pref.getString("reg_no","");  //Registration Number
         String pas = pref.getString("pass", ""); //Password
 
-        if(reg=="" || pas == "")
-        {
-            //Set boolean login data to false..
+        return !(reg.equals("") || pas.equals(""));
 
-            Home.login_data = false;
-
-            return false;
-        }
-        else
-        {
-            //Set the login data boolean to true.
-            Home.login_data = true;
-
-            return true;
-        }
     }
 
 }

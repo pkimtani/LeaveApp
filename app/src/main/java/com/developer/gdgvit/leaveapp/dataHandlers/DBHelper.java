@@ -1,10 +1,10 @@
-package com.developer.gdgvit.leaveapp.DataHandlers;
+package com.developer.gdgvit.leaveapp.dataHandlers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.DBContract.LeaveEntry;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
 
 /**
  * Created by pk on 21/12/14.

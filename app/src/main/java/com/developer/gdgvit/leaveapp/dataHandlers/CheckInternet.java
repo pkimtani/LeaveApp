@@ -1,4 +1,4 @@
-package com.developer.gdgvit.leaveapp.DataHandlers;
+package com.developer.gdgvit.leaveapp.dataHandlers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.developer.gdgvit.leaveapp.Home;
+import com.developer.gdgvit.leaveapp.LeaveAppClass;
 
 
 /**
@@ -33,11 +34,11 @@ public class CheckInternet {
 
         activeNetwork = cm.getActiveNetworkInfo();
         if(activeNetwork != null &&  activeNetwork.isConnected()){
-            Log.i(Home.Log_Tag, "Internet Connected");
+            Log.i(LeaveAppClass.Log_Tag, "Internet Connected");
             return true;
         }
         else{
-            Log.i(Home.Log_Tag, "Internet not connected");
+            Log.i(LeaveAppClass.Log_Tag, "Internet not connected");
         }
 
         return false;

@@ -3,6 +3,7 @@
     package="com.developer.gdgvit.leaveapp" >
 
     <application
+        android:name=".LeaveAppClass"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -18,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".dataHandlers.Apply_Leave_Service"></service>
+
         <activity
             android:name="com.developer.gdgvit.leaveapp.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -29,7 +32,7 @@
 
         <!-- SyncAdapters Dummy Authenticator Service -->
         <service
-            android:name=".SyncAdaptors.LeaveAppAuthenticatorService">
+            android:name=".syncAdaptors.LeaveAppAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -40,15 +43,16 @@
 
         <!-- SyncAdapter Stub Content Provider -->
         <provider
-            android:name=".DataHandlers.LeaveContentProvider"
+            android:name=".dataHandlers.LeaveContentProvider"
             android:authorities="com.developer.gdgvit.leaveapp.app"
             android:exported="false"
             android:syncable="true"/>
 
         <!-- SyncAdapters Service -->
         <service
-            android:name=".SyncAdaptors.LeaveAppSyncService"
-            android:exported="true">
+            android:name=".syncAdaptors.LeaveAppSyncService"
+            android:exported="true"
+            android:process=":sync">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>

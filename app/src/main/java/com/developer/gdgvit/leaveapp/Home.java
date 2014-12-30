@@ -8,22 +8,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.CheckIdPass;
-import com.developer.gdgvit.leaveapp.Fragments.Leave_List_Fragment;
-import com.developer.gdgvit.leaveapp.SyncAdaptors.LeaveAppSyncAdapter;
-
-import static com.developer.gdgvit.leaveapp.SyncAdaptors.LeaveAppSyncAdapter.getSyncAccount;
+import com.developer.gdgvit.leaveapp.dataHandlers.CheckIdPass;
+import com.developer.gdgvit.leaveapp.dataHandlers.CheckInternet;
+import com.developer.gdgvit.leaveapp.fragments.Default_Detail_View_Fragment;
+import com.developer.gdgvit.leaveapp.fragments.Leave_List_Fragment;
+import com.developer.gdgvit.leaveapp.syncAdaptors.LeaveAppSyncAdapter;
 
 
 public class Home extends FragmentActivity {
 
-    public static boolean login_data = false;//login id and password is available
-    public static boolean db_data = false;//data is available in the database
-    public static final String Log_Tag = "LeaveApp";
+    public static final String EXIT_DATE_TAG = "exit_date";
+    public static final String Sl_NO_TAG = "sl_no";
+
+    public static final String AUTH_TAG = "auth";
+    public static final String LEAVE_TYPE_TAG = "leave_type";
+    public static final String EXIT_ON_TAG = "exit";
+    public static final String ENTRY_ON_TAG = "entry";
+    public static final String PLACE_TAG = "place";
+    public static final String REASON_TAG = "reason";
+
+    public static final String REG_TAG = "reg";
+    public static final String PASS_TAG = "pass";
+
+    public static final String AUTHORITY = "com.developer.gdgvit.leaveapp.app";
+    //Account
+    //public final String ACCOUNT = getString(R.string.app_name);
+    // Sync interval constants
+    public static final long SECONDS_PER_MINUTE = 60L;
+    public static final long SYNC_INTERVAL_IN_MINUTES = 1L;
+    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
+
+    ContentResolver mResolver;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
@@ -34,8 +52,32 @@ public class Home extends FragmentActivity {
                     .add(R.id.container, new Leave_List_Fragment()).commit();
         }
 
-        LeaveAppSyncAdapter.initializeSyncAdapter(this);
+        if (findViewById(R.id.detailContainer) != null)
+        {
+            LeaveAppClass.TWO_PANE_UI = true;
+            if (savedInstanceState == null)
+            {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.detailContainer, new Default_Detail_View_Fragment()).commit();
+            }
+        }
+        else
+        {
+            LeaveAppClass.TWO_PANE_UI = false;
+        }
 
+        //LeaveAppSyncAdapter.initializeSyncAdapter(this);
+
+        // Get the content resolver for your app
+        mResolver = getContentResolver();
+        /*
+         * Turn on periodic syncing
+         */
+        ContentResolver.addPeriodicSync(
+                LeaveAppSyncAdapter.getSyncAccount(this),
+                AUTHORITY,
+                Bundle.EMPTY,
+                60*3);
     }
 
     @Override
@@ -56,7 +98,16 @@ public class Home extends FragmentActivity {
         if (id == R.id.action_refresh) {
 
             if(new CheckIdPass(this).checkIdPas())
-                LeaveAppSyncAdapter.syncImmediately(this);
+            {
+                if(new CheckInternet(this).state())
+                {
+                    Toast.makeText(this, "Sync started... :)", Toast.LENGTH_LONG).show();
+                    LeaveAppSyncAdapter.syncImmediately(this);
+                }
+                else
+                    Toast.makeText(this, "OOPS! Please connect to internet first... :(",Toast.LENGTH_LONG).show();
+
+            }
             else
                 Toast.makeText(this, "Please provide login id and password in the settings..", Toast.LENGTH_LONG).show();
 

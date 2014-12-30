@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.developer.gdgvit.leaveapp.DataHandlers.DBHelper;
-import com.developer.gdgvit.leaveapp.DataHandlers.DBContract.LeaveEntry;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBHelper;
+import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
 
 /**
  * Created by pk on 21/12/14.
