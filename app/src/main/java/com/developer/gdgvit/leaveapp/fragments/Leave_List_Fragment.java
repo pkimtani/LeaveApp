@@ -12,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,20 +163,27 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
         applyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(new CheckInternet(getActivity()).state())
+                if(LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.loginDataKey))
                 {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    if(LeaveAppClass.TWO_PANE_UI)
-                        ft.replace(R.id.detailContainer, new Apply_New_Leave_Fragment(), "apply");
+                    if(new CheckInternet(getActivity()).state())
+                    {
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        if(LeaveAppClass.TWO_PANE_UI)
+                            ft.replace(R.id.detailContainer, new Apply_New_Leave_Fragment(), "apply");
+                        else
+                            ft.replace(R.id.container, new Apply_New_Leave_Fragment(), "apply");
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
                     else
-                        ft.replace(R.id.container, new Apply_New_Leave_Fragment(), "apply");
-                    ft.addToBackStack(null);
-                    ft.commit();
+                    {
+                        Toast.makeText(getActivity(), "Please connect to internet first.. :(",Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(getActivity(), "Please connect to internet first.. :(",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please provide reg no and password in settings.. :(",Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -190,10 +198,16 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle)
     {
 
+        Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | Login Key: " + LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.loginDataKey));
+        Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | DB Key: " + LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.dbDataKey));
+
         if(LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.loginDataKey))
         {
+            Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | Login Key Pass");
+
             if(LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.dbDataKey))
             {
+                Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | DB Key Pass");
                 return new CursorLoader(
                         getActivity(),
                         LeaveEntry.Content_Uri,
@@ -205,6 +219,7 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
             }
             else
             {
+                Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | DB Key Fail");
                 getActivity().getContentResolver().delete(LeaveEntry.Content_Uri, null, null);
 
                 ContentValues values = new ContentValues();
@@ -236,6 +251,7 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
         }
         else
         {
+            Log.i(LeaveAppClass.Log_Tag, "Leave List Fragment | Login Key Fail");
             getActivity().getContentResolver().delete(LeaveEntry.Content_Uri, null, null);
 
             ContentValues values = new ContentValues();

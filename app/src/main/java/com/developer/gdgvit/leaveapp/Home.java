@@ -2,8 +2,11 @@ package com.developer.gdgvit.leaveapp;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -31,12 +34,8 @@ public class Home extends FragmentActivity {
     public static final String PASS_TAG = "pass";
 
     public static final String AUTHORITY = "com.developer.gdgvit.leaveapp.app";
-    //Account
-    //public final String ACCOUNT = getString(R.string.app_name);
-    // Sync interval constants
-    public static final long SECONDS_PER_MINUTE = 60L;
-    public static final long SYNC_INTERVAL_IN_MINUTES = 1L;
-    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE;
+
+    public static String reg, pass;
 
     ContentResolver mResolver;
 
@@ -45,6 +44,19 @@ public class Home extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        reg = pref.getString("reg_no","");  //Registration Number
+        pass = pref.getString("pass", ""); //Password
+
+        if(reg.equals("") || pass.equals(""))
+            LeaveAppClass.dbpref.SavePreferences(LeaveAppClass.loginDataKey, false);
+        else
+            LeaveAppClass.dbpref.SavePreferences(LeaveAppClass.loginDataKey, true);
+
+        Log.i(LeaveAppClass.Log_Tag, "Home | Reg No: " + reg);
+        Log.i(LeaveAppClass.Log_Tag, "Home | Pass: " + pass);
 
         if (savedInstanceState == null)
         {

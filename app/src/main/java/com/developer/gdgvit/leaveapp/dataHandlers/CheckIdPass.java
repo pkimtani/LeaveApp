@@ -32,4 +32,11 @@ public class CheckIdPass {
 
     }
 
+    public String getData(String key)
+    {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return pref.getString(key, "");
+    }
+
 }

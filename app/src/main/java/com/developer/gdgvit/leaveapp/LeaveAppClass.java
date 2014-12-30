@@ -2,6 +2,7 @@ package com.developer.gdgvit.leaveapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -19,13 +20,14 @@ public class LeaveAppClass extends Application {
 
     public static DBPref dbpref;
 
-    public static boolean TWO_PANE_UI = false;
+    public static boolean TWO_PANE_UI;
 
     @Override
     public void onCreate() {
         super.onCreate();
         dbpref = new DBPref();
-        Toast.makeText(getApplicationContext(), "!!Welcome!! to Leave App", Toast.LENGTH_LONG).show();
+        Log.i(LeaveAppClass.Log_Tag, "App Class");
+        //Toast.makeText(getApplicationContext(), "!!Welcome!! to Leave App", Toast.LENGTH_LONG).show();
     }
 
     public class DBPref

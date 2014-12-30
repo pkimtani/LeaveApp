@@ -23,6 +23,7 @@ import android.util.Log;
 import com.developer.gdgvit.leaveapp.Home;
 import com.developer.gdgvit.leaveapp.LeaveAppClass;
 import com.developer.gdgvit.leaveapp.R;
+import com.developer.gdgvit.leaveapp.dataHandlers.CheckIdPass;
 import com.developer.gdgvit.leaveapp.dataHandlers.DBContract;
 import com.developer.gdgvit.leaveapp.dataHandlers.DBContract.LeaveEntry;
 import com.developer.gdgvit.leaveapp.dataHandlers.Utility;
@@ -80,10 +81,13 @@ public class LeaveAppSyncAdapter extends AbstractThreadedSyncAdapter {
 
         //new Leave_List_Fragment().showToast("Synchronization started...please be patient..");
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-        String reg = pref.getString("reg_no","");  //Registration Number
-        String pas = pref.getString("pass", ""); //Password
+        //String reg = pref.getString("reg_no", "");  //Registration Number
+        //String pas = pref.getString("pass", ""); //Password
+
+        String reg = new CheckIdPass(getContext()).getData("reg_no");
+        String pas = new CheckIdPass(getContext()).getData("pass");
 
         Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | Reg No: " + reg);
         Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | Pass: " + pas);
@@ -159,15 +163,19 @@ public class LeaveAppSyncAdapter extends AbstractThreadedSyncAdapter {
                 return;
             }
 
-            Log.i(LeaveAppClass.Log_Tag, buffer.toString());
+            Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | Buffer Data 1 " + buffer.toString());
 
-            if(buffer.toString().equals("invalid"))
+            if(buffer.toString().contentEquals("invalid"))
             {
+                Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | Buffer Data 2 " + buffer.toString());
                 //new Leave_List_Fragment().showToast("OOPS! Something went wrong!! :(");
                 notifyStatus("Error", "Invalid data");
+                //Log.i(LeaveAppClass.Log_Tag, buffer.toString());
                 //ContentResolver.cancelSync(getSyncAccount(getContext()), "com.developer.gdgvit.leaveapp.app");
                 return;
             }
+            else
+                Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | Buffer Data 3 " + buffer.toString());
             //Login Successful....lets fetch the json from leave api
 
             Uri leaveUri = Uri.parse(BASE_URL_LEAVE_API).buildUpon()
@@ -302,6 +310,8 @@ public class LeaveAppSyncAdapter extends AbstractThreadedSyncAdapter {
             //fetch complete
             LeaveAppClass.dbpref.SavePreferences(LeaveAppClass.dbDataKey, true);
 
+            Log.i(LeaveAppClass.Log_Tag, "SyncAdapter | DB Key: " + LeaveAppClass.dbpref.GetPreferences(LeaveAppClass.dbDataKey));
+
         } catch (MalformedURLException e) {
             //new Leave_List_Fragment().showToast("OOPS! Something went wrong!! :(");
             Log.i(LeaveAppClass.Log_Tag, "URL Exception: "+e.toString());
@@ -359,7 +369,7 @@ public class LeaveAppSyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
 
-    private void notifyStatus(String exit, String status) {
+    public void notifyStatus(String exit, String status) {
 
         Context context = getContext();
 
@@ -455,13 +465,13 @@ public class LeaveAppSyncAdapter extends AbstractThreadedSyncAdapter {
             * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
             * here.
             */
-            Log.i(LeaveAppClass.Log_Tag, "Here");
+            Log.i(LeaveAppClass.Log_Tag, "SyncAdapter Get Account | In If");
             ContentResolver.setSyncAutomatically(newAccount, "com.developer.gdgvit.leaveapp.app", true);
             ContentResolver.addPeriodicSync(newAccount, "com.developer.gdgvit.leaveapp.app", Bundle.EMPTY, 60*3);
         }
         else
         {
-            Log.i(LeaveAppClass.Log_Tag, "There");
+            Log.i(LeaveAppClass.Log_Tag, "SyncAdapter Get Account | In Else");
         }
 
             //onAccountCreated(newAccount, context);

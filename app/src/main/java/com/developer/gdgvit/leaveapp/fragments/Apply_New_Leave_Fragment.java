@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -90,6 +91,8 @@ public class Apply_New_Leave_Fragment extends Fragment {
                     Toast.makeText(getActivity(), "Please provide the address... :(", Toast.LENGTH_LONG).show();
                 else if(reason.getText().toString().equals(""))
                     Toast.makeText(getActivity(), "Please provide the reason for leave... :(", Toast.LENGTH_LONG).show();
+                else if(checkDate(exit.getText().toString()) && checkDate(entry.getText().toString()))
+                    Toast.makeText(getActivity(), "Please provide a valid date... :(", Toast.LENGTH_LONG).show();
                 else
                 {
                     Intent intent = new Intent(getActivity(), Apply_Leave_Service.class);
@@ -113,5 +116,27 @@ public class Apply_New_Leave_Fragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public boolean checkDate(String s)
+    {
+        int d = Integer.parseInt(s.substring(0, 2));
+        int m = Integer.parseInt(s.substring(3, 5));
+        int y = Integer.parseInt(s.substring(6, 10));
+
+        if(s.length()>10)
+            return true;
+
+        if(m<=0 || m>=13)
+            return true;
+        else if(m==2)
+            if(d<=0 || d>=29)
+                return true;
+        else if(d<=0 || d>=31)
+                return true;
+        else if(y<=2000 || y>=2500)
+                return true;
+
+        return false;
     }
 }
