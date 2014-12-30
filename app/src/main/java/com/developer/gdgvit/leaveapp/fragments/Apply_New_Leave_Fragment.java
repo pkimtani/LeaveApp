@@ -120,12 +120,13 @@ public class Apply_New_Leave_Fragment extends Fragment {
 
     public boolean checkDate(String s)
     {
-        int d = Integer.parseInt(s.substring(0, 2));
-        int m = Integer.parseInt(s.substring(3, 5));
-        int y = Integer.parseInt(s.substring(6, 10));
 
         if(s.length()>10)
             return true;
+
+        int d = Integer.parseInt(s.substring(0, 2));
+        int m = Integer.parseInt(s.substring(3, 5));
+        int y = Integer.parseInt(s.substring(6, 10));
 
         if(m<=0 || m>=13)
             return true;

@@ -68,7 +68,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
+                android:inputType="date"
                 android:ems="10"
                 android:maxLines="5"
                 android:id="@+id/exitOnValue" />
@@ -83,7 +83,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
+                android:inputType="date"
                 android:ems="10"
                 android:maxLines="5"
                 android:id="@+id/entryOnValue" />
