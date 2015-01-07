@@ -136,6 +136,9 @@ public class Leave_List_Fragment extends Fragment implements LoaderManager.Loade
                 String slNo = c.getString(c.getColumnIndex(LeaveEntry._ID));
                 String exit = c.getString(c.getColumnIndex(LeaveEntry.COL_EXIT_ON));
 
+                Log.i(LeaveAppClass.Log_Tag, "Leave Fragment | Extra | Sl No: " + slNo);
+                Log.i(LeaveAppClass.Log_Tag, "Leave Fragment | Extra | Exit Date: " + exit);
+
                 if(exit.equals(exit_on))
                     Toast.makeText(getActivity(), "Provide the login details in setting and refresh first... :(", Toast.LENGTH_LONG).show();
                 else

@@ -42,6 +42,9 @@ public class Detail_View_Fragment extends Fragment {
         String sSlNo = data.getString(Home.Sl_NO_TAG);
         String sExit = data.getString(Home.EXIT_DATE_TAG);
 
+        Log.i(LeaveAppClass.Log_Tag, "Detail Fragment | Extra | Sl No: " + sSlNo);
+        Log.i(LeaveAppClass.Log_Tag, "Detail Fragment | Extra | Exit Date: " + sExit);
+
         slNo = (TextView) rootView.findViewById(R.id.slnoValue);
         applOn = (TextView) rootView.findViewById(R.id.applOnValue);
         applTo = (TextView) rootView.findViewById(R.id.applToValue);
@@ -57,14 +60,18 @@ public class Detail_View_Fragment extends Fragment {
         Cursor c = getActivity().getContentResolver().query(
                 LeaveEntry.Content_Uri,
                 null,
-                LeaveEntry.COL_EXIT_ON
+                LeaveEntry._ID
                         + " = "
-                        + sExit + ";",
+                        + sSlNo + ";",
                 null,
                 null
         );
 
+        Log.i(LeaveAppClass.Log_Tag, "Detail Fragment | Cursor | Count: " + c.getCount());
+
         c.moveToFirst();
+
+        Log.i(LeaveAppClass.Log_Tag, "Detail Fragment | Cursor | Sl No: " + c.getString(c.getColumnIndex(LeaveEntry._ID)) );
 
         slNo.setText(c.getString(c.getColumnIndex(LeaveEntry._ID)));
         applOn.setText(Utility.formDate(c.getString(c.getColumnIndex(LeaveEntry.COL_APPLIED_ON))));
@@ -84,6 +91,7 @@ public class Detail_View_Fragment extends Fragment {
 
         apprOn.setText(appr);
 
+        c.close();
 
         return rootView;
     }
